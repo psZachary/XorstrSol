@@ -54,6 +54,7 @@ namespace XorstrSol
                 {
                     xorstr.StringDataBuffer += ")";
                     addEndParentheses = false;
+                    hasFoundString = false;
                 }
                 if (i >= fileText.Length - 1) continue;
 
@@ -65,11 +66,12 @@ namespace XorstrSol
                 }
                 if (fileText[i + 1] == '"' && hasFoundString)
                 {
-                    hasFoundString = false;
                     addEndParentheses = true;
                     continue;
                 }
             }
+
+            xorstr.DataBuffer = Encoding.UTF8.GetBytes(xorstr.StringDataBuffer);
 
             return new Tuple<bool, Xorstr>(true, xorstr);
         }
