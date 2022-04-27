@@ -10,6 +10,7 @@ namespace XorstrSol
 
         static void Main(string[] args)
         {
+
             bool foundValidFiles = false;
             int fileParsedCount = 0;
 
@@ -19,7 +20,7 @@ namespace XorstrSol
 
             foreach (string fileExtension in XorstrFileExtensions)
             {
-                var fileEnumeration = Directory.GetFiles("..\\", "*" + fileExtension, SearchOption.AllDirectories);
+                var fileEnumeration = Directory.GetFiles(Directory.GetCurrentDirectory(), "*" + fileExtension, SearchOption.AllDirectories);
 
                 if (fileEnumeration.Length != 0)
                     foundValidFiles = true;
