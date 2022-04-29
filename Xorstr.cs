@@ -47,28 +47,38 @@ namespace XorstrSol
             bool hasFoundString = false;
             bool addEndParentheses = false;
 
-            for (int i = 0; i < fileText.Length; i++)
-            {
-                xorstr.StringDataBuffer += fileText[i];
-                if (addEndParentheses)
-                {
-                    xorstr.StringDataBuffer += ")";
-                    addEndParentheses = false;
-                    hasFoundString = false;
-                }
-                if (i >= fileText.Length - 1) continue;
+            var lines = fileText.Split('\n');
 
-                if (fileText[i + 1] == '"' && !hasFoundString)
-                {
-                    hasFoundString = true;
-                    xorstr.StringDataBuffer += "xorstr_(";
-                    continue;
-                }
-                if (fileText[i + 1] == '"' && hasFoundString)
-                {
-                    addEndParentheses = true;
-                    continue;
-                }
+            for (int z = 0; z < lines.Length; z++)
+            {
+                var line = lines[z];
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        xorstr.StringDataBuffer += line[i];
+                        if (!line.ToLower().StartsWith("#pragma") && !line.ToLower().StartsWith("#include"))
+                        {
+                            if (addEndParentheses)
+                            {
+                                xorstr.StringDataBuffer += ")";
+                                addEndParentheses = false;
+                                hasFoundString = false;
+                            }
+                            if (i >= line.Length - 1) continue;
+
+                            if (line[i + 1] == '"' && !hasFoundString)
+                            {
+                                hasFoundString = true;
+                                xorstr.StringDataBuffer += "xorstr_(";
+                                continue;
+                            }
+                            if (line[i + 1] == '"' && hasFoundString)
+                            {
+                                addEndParentheses = true;
+                                continue;
+                            }
+                        }
+                    }
+
             }
 
             xorstr.DataBuffer = Encoding.UTF8.GetBytes(xorstr.StringDataBuffer);
